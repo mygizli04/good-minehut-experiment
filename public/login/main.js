@@ -1,7 +1,7 @@
 //Main file that will handle the page.
 
 if (sessionStorage.getItem('loginData')) {
-    document.body.innerHTML += '<br><br>You seem to already be logged in. You can login again here if your previous session expired, or <a href="/serverselect">click here</a> to skip login.'
+    document.body.innerHTML += '<br><br>You seem to already be logged in. You can login again here if your previous session expired, or <a href="/selectserver">click here</a> to skip login.'
 }
 
 document.addEventListener('DOMContentLoaded', () => {

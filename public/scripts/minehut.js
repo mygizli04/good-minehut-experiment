@@ -24,8 +24,62 @@ class Folder {
     }
 }
 
+class Plugin {    
+    constructor (plugin) {
+        this.configFileName = plugin.config_file_name
+        this.created = plugin.created
+        this.credits = plugin.credits
+        this.description = plugin.desc
+        this.extendedDescription = plugin.desc_extended
+        this.disabled = plugin.disabled
+        this.fileName = plugin.file_name
+        this.htmlExtendedDescription = plugin.html_desc_extended
+        this.lastUpdated = plugin.last_updated
+        this.name = plugin.name
+        this.version = plugin.version
+        this.platform = 'java'
+        this.id = plugin._id
+    }
+
+    async isInstalled(serverId) {
+        return new Promise((resolve, reject) => {
+            let chosenServer
+            allData().then(servers => {
+                servers.forEach(server => {
+                    if (server.id === serverId) {
+                        chosenServer = server
+                    }
+                })
+                let ret = false
+                chosenServer.activePlugins.forEach(plugin => {
+                    if (plugin === this.id) {
+                        ret = true
+                    }
+                })
+                resolve(ret)
+            })
+        })
+    }
+}
+
+async function getPlugins() {
+    return new Promise((resolve, reject) => {
+        fetch(apiURL + '/plugins_public').then(res => res.json().then(res => {
+            let plugins = []
+            res.all.forEach(plugin => {
+                plugins.push(new Plugin(plugin))
+            })
+            resolve(plugins)
+        }))
+    })
+}
+
 async function editFile(id, path, content) {
-    callApi('/file/' + id + '/edit/' + path, 'POST', {}, JSON.stringify({content: content}))
+    return new Promise((resolve, reject) => {
+        callApi('/file/' + id + '/edit/' + path, 'POST', {}, JSON.stringify({content: content})).then(res => {
+            resolve()
+        })
+    })
 }
 
 async function activateServer(id) {

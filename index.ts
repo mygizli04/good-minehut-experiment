@@ -16,6 +16,7 @@ app.use('/script', express.static('./public/scripts'))
 app.use('/selectserver', express.static('./public/serverselect'))
 app.use('/serviceSelection', express.static('./public/serviceSelection'))
 app.use('/fileManager', express.static('./public/fileManager'))
+app.use('/plugins', express.static('./public/plugins'))
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
@@ -41,6 +42,10 @@ app.get('/serviceSelection', (req, res) => {
 
 app.get('/fileManager', (req, res) => {
     res.sendFile('./public/fileManager/fileManager.html', {root: root})
+})
+
+app.get('/plugins', (req, res) => {
+    res.sendFile('./public/plugins/plugins.html', {root: root})
 })
 
 app.post('/login', (req, res) => {
